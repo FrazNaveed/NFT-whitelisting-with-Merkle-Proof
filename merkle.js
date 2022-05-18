@@ -1,5 +1,20 @@
+const csv = require("csvtojson");
 const {MerkleTree} = require("merkletreejs");
 const keccak256 = require('keccak256');
+
+
+
+const walletsJson = await csv().fromFile(
+    "./data.csv"
+);
+const walletsArray = [];
+for (const entry of walletsJson) {
+    if (entry.wallet.length == 42) {
+        walletsArray.push(entry.wallet);
+    }
+}
+const leafNodes = walletsArray.map((addr) => keccak256(addr));
+
 
 let whitelistAddress = [
     "0xbD9D4a71B76C494958d9D258A1e3d4c0801495e0",
